@@ -17,15 +17,20 @@ fetch("/api/transaction")
 function populateTotal() {
   // reduce transaction amounts to a single total value
   let total = transactions.reduce((total, t) => {
+    //t ? same as cir
+    //string to integer
     return total + parseInt(t.value);
   }, 0);
 
+  //takes the total id and adds the textContent from total variable 
   let totalEl = document.querySelector("#total");
   totalEl.textContent = total;
 }
 
+
 function populateTable() {
   let tbody = document.querySelector("#tbody");
+  //?
   tbody.innerHTML = "";
 
   transactions.forEach(transaction => {
@@ -35,33 +40,39 @@ function populateTable() {
       <td>${transaction.name}</td>
       <td>${transaction.value}</td>
     `;
-
+    //tbody add node to the end of the list of childsnodes of tr
     tbody.appendChild(tr);
   });
 }
 
 function populateChart() {
   // copy array and reverse it
+  //transactions is am empty array that will equal reversed 
   let reversed = transactions.slice().reverse();
   let sum = 0;
 
   // create date labels for chart
   let labels = reversed.map(t => {
+    //.map creates new array of populated result from t 
     let date = new Date(t.date);
     return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
   });
 
   // create incremental values for chart
   let data = reversed.map(t => {
+    //.map creates new array of populated result from t
     sum += parseInt(t.value);
     return sum;
   });
 
   // remove old chart if it exists
+  //myChart empty value 
+
   if (myChart) {
     myChart.destroy();
   }
 
+  //
   let ctx = document.getElementById("myChart").getContext("2d");
 
   myChart = new Chart(ctx, {
@@ -79,11 +90,13 @@ function populateChart() {
 }
 
 function sendTransaction(isAdding) {
+  // if subtracting funds, convert amount to negative number
   let nameEl = document.querySelector("#t-name");
   let amountEl = document.querySelector("#t-amount");
   let errorEl = document.querySelector(".form .error");
 
   // validate form
+  //if nameEl or amountEl is missing information then add text content
   if (nameEl.value === "" || amountEl.value === "") {
     errorEl.textContent = "Missing Information";
     return;
@@ -96,6 +109,7 @@ function sendTransaction(isAdding) {
   let transaction = {
     name: nameEl.value,
     value: amountEl.value,
+    //method returns a string in simplified extended ISO format (ISO 8601), which is always 24 or 27 characters long (YYYY-MM-DDTHH:mm:ss.sssZ or ±YYYYYY-MM-DDTHH:mm:ss.sssZ
     date: new Date().toISOString()
   };
 
@@ -105,6 +119,7 @@ function sendTransaction(isAdding) {
   }
 
   // add to beginning of current array of data
+  //adds trasnsation to the beginning of transaction array 
   transactions.unshift(transaction);
 
   // re-run logic to populate ui with new record
@@ -145,9 +160,11 @@ function sendTransaction(isAdding) {
 }
 
 document.querySelector("#add-btn").onclick = function() {
+  //if sendTransaction is true or info is entered
   sendTransaction(true);
 };
 
 document.querySelector("#sub-btn").onclick = function() {
+  //if sendTransaction is flase or info is not entered
   sendTransaction(false);
 };
