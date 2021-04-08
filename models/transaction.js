@@ -19,7 +19,7 @@ const transactionSchema = new Schema(
     }
   }
 );
-//capital or lowercase
+
 const Transaction = mongoose.model("Transaction", transactionSchema);
 
 module.exports = Transaction;

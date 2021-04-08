@@ -9,14 +9,14 @@ request.onupgradeneeded = function(event) {
     //
     const db = event.target.result;
     //createObjectStore = table 
-    
+    //Auto-increment allows a unique number to be generated automatically when a new record is inserted into a table.
     db.createObjectStore("transaction", { autoIncrement: true})
 };
 
 //when request is successful will return new db
 request.onsuccess = function(event) {
     db = event.target.result;
-
+//Returns the online status of the browser
     if (navigator.onLine) {
         checkDatabase();
     }
