@@ -4,7 +4,14 @@ const mongoose = require("mongoose");
 const compression = require("compression");
 
 const PORT = 3000;
+var MONOGODB_URI = process.env.MONOGODB_URI || "mongodb://localhost/budget";
 
+mongoose.connect(MONOGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+  useFindAndModify: false
+});
 const app = express();
 
 app.use(logger("dev"));
@@ -15,12 +22,7 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost/budget", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true,
-  useFindAndModify: false
-});
+
 
 // routes
 app.use(require("./routes/api.js"));

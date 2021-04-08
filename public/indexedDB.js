@@ -31,9 +31,16 @@ function saveRecord(record) {
     const transaction = db.transaction(["transaction"], "readwrite");
     //creates table called transaction
     const store = transaction.objectStore("transaction");
-    //gets all data from the store
-    const getAll = store.getAll();
-
+    //add record to table
+   store.add(record);
+}
+function checkDatabase(){
+    //obj and type of interaction
+    const transaction = db.transaction(["transaction"], "readwrite");
+    //creates table called transaction
+    const store = transaction.objectStore("transaction");
+ //gets all data from the store
+ const getAll = store.getAll();
     //once getAll is successfull it will run the function
     getAll.onsuccess = function(){
         if(getAll.result.length > 0){
